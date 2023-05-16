@@ -44,13 +44,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   List<DataState> stateList = [];
   List<DataCity> cityList = [];
 
-  @override
-  void initState() {
-    context.read<CountryCubit>().country();
-    context.read<GetStateCubit>().getState();
-    context.read<GetCityCubit>().getCity();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   context.read<CountryCubit>().country();
+  //   context.read<GetStateCubit>().getState();
+  //   context.read<GetCityCubit>().getCity();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

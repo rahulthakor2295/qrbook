@@ -153,9 +153,11 @@ textEditingController: fistNameController,
                     // Navigator.pushNamed(context, AppRouteName.PersonalInfo,arguments: {
                     //   'mobile' : '9601582609'
                     // });
-                  Navigator.pushNamed(context, AppRouteName.PersonalInfo,
-                      arguments: ScreenArguments("mobile", "1234567889"));
-
+                  Navigator.pushNamed(
+                    context,
+                    AppRouteName.PersonalInfo,
+                    arguments: ScreenArguments('Hello', 'World'),
+                  );
                   // if(_formKey.currentState!.validate()){
                   // }
                 },
