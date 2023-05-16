@@ -8,6 +8,7 @@ import 'package:qr_book/page_routes/routes_name.dart';
 import '../../../Data/entity/register/Data.dart';
 import '../../../Data/repositry/repositry.dart';
 import '../../../constant/widget_color/widget_color.dart';
+import '../../passdata.dart';
 import '../text_field.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -149,10 +150,11 @@ textEditingController: fistNameController,
                   //     // 'email' : emailController.text,
                   //   };
 
-                    Navigator.pushNamed(context, AppRouteName.PersonalInfo,arguments: {
-                      'mobile' : '9601582609'
-                    });
-
+                    // Navigator.pushNamed(context, AppRouteName.PersonalInfo,arguments: {
+                    //   'mobile' : '9601582609'
+                    // });
+                  Navigator.pushNamed(context, AppRouteName.PersonalInfo,
+                      arguments: ScreenArguments("mobile", "1234567889"));
 
                   // if(_formKey.currentState!.validate()){
                   // }

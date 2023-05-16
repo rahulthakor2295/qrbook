@@ -18,6 +18,7 @@ import '../Cubit/personal_info/city/get_city_cubit.dart';
 import '../Cubit/send_otp/send_otp_cubit.dart';
 import '../Data/apiclient/ApiClient.dart';
 import '../Data/repositry/repositry.dart';
+import '../presentation/passdata.dart';
 import '../presentation/screens/login_screen/login_screen.dart';
 import '../presentation/screens/otp_screen/opt_screen.dart';
 import '../presentation/screens/pageview/intro_page_03.dart';
@@ -67,6 +68,7 @@ class AppRouter {
             ));
       case AppRouteName.PersonalInfo :
         return MaterialPageRoute(builder: (BuildContext context){
+          final args = settings.arguments as ScreenArguments;
           return  MultiBlocProvider(providers: [
               BlocProvider(
                 create: (context) => CountryCubit(repository: repository),),
@@ -74,7 +76,7 @@ class AppRouter {
                 create: (context) => GetStateCubit(repository: repository),),
               BlocProvider(
                 create: (context) => GetCityCubit(repository: repository),),
-            ], child: PersonalInfoPage(repository: repository,));
+            ], child: PersonalInfoPage(repository: repository,mobile: args.message,));
 
         }
         );

@@ -14,14 +14,15 @@ import '../../../Data/entity/personal_infomation/get_country/Data.dart';
 import '../../../Data/entity/personal_infomation/get_state/Data.dart';
 import '../../../constant/widget_color/widget_color.dart';
 import '../../../page_routes/routes_name.dart';
+import '../../passdata.dart';
 import '../text_field.dart';
 
 enum AddrressType { home, office, other }
 
 class PersonalInfoPage extends StatefulWidget {
   Repository? repository;
-
-  PersonalInfoPage({Key? key, this.repository}) : super(key: key);
+  String? mobile;
+  PersonalInfoPage({Key? key, this.repository,this.mobile}) : super(key: key);
 
   @override
   State<PersonalInfoPage> createState() => _PersonalInfoPageState();
@@ -53,12 +54,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-
-
-    final data = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    final mobileNumber = data['mobile'];
-
-
+    // final  Map<String, Object> rcvdData = ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
+    //
+    // // final data = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    // final mobileNumber = rcvdData['mobile'];
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(statusBarColor: Color(0xFF473F97)),
@@ -70,11 +69,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               Stack(
                 children: [
                   SvgPicture.asset('assets/icons/RectangleAppBar.svg'),
-                  const Positioned(
+                   Positioned(
                       bottom: 32.0,
                       left: 25,
                       child: Text(
-                        "Personal Information",
+                        "${widget.mobile}",
                         style: TextStyle(
                             fontSize: 34,
                             color: Colors.white,
