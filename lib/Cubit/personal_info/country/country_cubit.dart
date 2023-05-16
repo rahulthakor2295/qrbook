@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
+import 'package:qr_book/Data/entity/personal_infomation/get_country/Data.dart';
 
 import '../../../Data/entity/personal_infomation/get_country/GetCountryModel.dart';
 import '../../../Data/repositry/repositry.dart';
@@ -17,7 +18,7 @@ class CountryCubit extends Cubit<CountryState> {
     GetCountryModel? countryResponse;
     try {
       countryResponse = await repository?.getCountry();
-      emit(CountrySuccessState (countryResponse!));
+      emit(CountrySuccessState (countryResponse!,));
     } on DioError catch (ex) {
       if (ex.type == DioErrorType.connectTimeout) {
         emit(CountryErrorState( error: "Connection time out. Please check your internet connection."));
@@ -35,4 +36,11 @@ class CountryCubit extends Cubit<CountryState> {
       }
     }
   }
+  // void selectCountry(Data? country) {
+  //   emit(CountrySuccessState (state.countries , ));
+  //   if (country != null) {
+  //     int selectedCountryId = country.id;
+  //     print('Selected Country ID: $selectedCountryId');
+  //   }
+  // }
 }

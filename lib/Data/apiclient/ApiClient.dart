@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:dio_logging_interceptor/dio_logging_interceptor.dart';
+import 'package:qr_book/Data/entity/personal_infomation/get_state/GetStateModel.dart';
 import 'package:retrofit/http.dart';
 
+import '../entity/personal_infomation/getCity/GetCityModel.dart';
 import '../entity/personal_infomation/get_country/GetCountryModel.dart';
 import '../entity/register/RegisterModel.dart';
+import '../entity/send_otp/SendOtpModel.dart';
 import '../entity/slier_model.dart';
 import '../entity/verify_number/VerifyNumberModel.dart';
 
@@ -43,7 +46,7 @@ abstract class ApiClient {
     return _ApiClient(dio, baseUrl: baseUrl);
   }
 
-
+//verify number
   @POST('customer/auth/check-mobile')
   @FormUrlEncoded()
   Future<VerifyNumberModel>verifyNumber(
@@ -59,7 +62,16 @@ abstract class ApiClient {
       @Field('mobile_number') mobileNumber,
       @Field('device_id') deviceId,
       @Field('device_type') deviceType,
+      @Field('address_line1') addressLine1,
+      @Field('address_line2') addressLine2,
+      @Field('landmark')landmark,
+      @Field('country_id') countryId,
+      @Field('state_id') stateId,
+      @Field('city_id') cityId,
+      @Field('pincode')pincode,
+
       );
+
 
   @POST('School/get_ad_image.php')
   @FormUrlEncoded()
@@ -69,7 +81,22 @@ abstract class ApiClient {
       @Field('user_id') userId,
       @Field('app_type') appType,
       );
+
  @GET('customer/get-country')
   Future<GetCountryModel> getCountry ();
+
+
+ @GET('customer/get-state')
+  Future<GetStateModel> getState ();
+
+
+ @GET('customer/get-state')
+  Future<GetCityModel> getCity ();
+
+  @POST('customer/auth/send-otp')
+  Future<SendOtpModel> sendOtp (
+  @FormUrlEncoded()
+  @Field('mobile_number') mobileNumber,
+  );
 
 }

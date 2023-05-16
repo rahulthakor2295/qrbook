@@ -11,14 +11,27 @@ class RegisterCubit extends Cubit<RegisterState> {
   final Repository? repository;
   RegisterCubit({required this.repository}) : super(RegisterInitial());
 
-  void register(String firstName ,String lastName ,String email, String mobileNumber,String deviceId, String dedeviceType) async {
+  void register(
+       String firstName,
+       String lastName,
+       String email,
+       String mobileNumber,
+      String deviceId ,
+      String dedeviceType,
+      String? addressLine1,
+      String? addressLine2,
+      String? landmark,
+      String? countryId,
+      String? stateId,
+      String? cityId,
+      String? pincode) async {
     print("Api call  -=====>");
     emit(RegisterLoadingState());
     RegisterModel? RegisterResponse;
     try {
       print("Api call  -=====>");
       RegisterResponse =
-      await repository?.register(firstName, lastName, email, mobileNumber,deviceId,dedeviceType);
+      await repository?.register(firstName, lastName, email, mobileNumber,deviceId,dedeviceType,addressLine1,addressLine2,landmark,countryId,stateId,cityId,pincode);
       print("Api response  -=====>" + RegisterResponse.toString());
       emit(RegisterSuccessState(RegisterResponse!));
     } on DioError catch (ex) {

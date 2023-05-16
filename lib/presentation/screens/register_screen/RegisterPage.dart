@@ -27,6 +27,10 @@ class _RegisterPageState extends State<RegisterPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
  List repoList = [];
+
+ // registrestion or not bool value
+  bool? status;
+  String? message;
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -100,13 +104,14 @@ textEditingController: fistNameController,
               padding: const EdgeInsets.only(top:40.0),
               child: BlocConsumer<RegisterCubit, RegisterState>(
   listener: (context, state) {
-
     if(state is RegisterLoadingState){
       const Center(child: CircularProgressIndicator(),);
     }else if(state is RegisterSuccessState){
       final reponse = state.RegisterResponse.data;
+      status = state.RegisterResponse.status;
+      // message = state.RegisterResponse.message;
       print('$reponse');
-      repoList = reponse as List<Data>;
+      // repoList = reponse as List<Data>;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('${state.RegisterResponse.message}')),
       );
@@ -122,11 +127,35 @@ textEditingController: fistNameController,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(26.00)),
                 onPressed: () {
-                  Navigator.pushNamed(context, AppRouteName.PersonalInfo);
-                  // context.read<RegisterCubit>().register(fistNameController.text, lastNameController.text, emailController.text, phoneNumberController.text,'abcde77544554wewewewewe','1');
-                  // loginValidator();
-                  if(_formKey.currentState!.validate()){
-                  }
+                  // context.read<RegisterCubit>().register(
+                  //    fistNameController.text,
+                  //    lastNameController.text,
+                  //    emailController.text,
+                  //    phoneNumberController.text,
+                  //   "abcde77544554wewewewewe",
+                  //   '0',
+                  //   '',
+                  //   '',
+                  //   '',
+                  //   '',
+                  //   '',
+                  //   '',
+                  //   '',
+                  // );
+                  //   final myData = {
+                  //     'mobile' : 'rahul',
+                  //     // 'firstName' : fistNameController.text,
+                  //     // 'lastName' : lastNameController.text,
+                  //     // 'email' : emailController.text,
+                  //   };
+
+                    Navigator.pushNamed(context, AppRouteName.PersonalInfo,arguments: {
+                      'mobile' : '9601582609'
+                    });
+
+
+                  // if(_formKey.currentState!.validate()){
+                  // }
                 },
                 child: Text(
                   "Register",
