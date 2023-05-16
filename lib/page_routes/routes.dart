@@ -11,8 +11,6 @@ import '../Cubit/personal_info/city/get_city_cubit.dart';
 import '../Cubit/send_otp/send_otp_cubit.dart';
 import '../Data/apiclient/ApiClient.dart';
 import '../Data/repositry/repositry.dart';
-import '../presentation/passdata.dart';
-import '../presentation/screens/login_screen/drive_screen.dart';
 import '../presentation/screens/login_screen/login_screen.dart';
 import '../presentation/screens/otp_screen/opt_screen.dart';
 import '../presentation/screens/pageview/intro_page_03.dart';
@@ -42,41 +40,45 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => VerifyNumberCubit(repository: repository),
-            child: LoginPage(repository: repository,),
+            child: LoginPage(
+              repository: repository,
+            ),
           ),
         );
-      case AppRouteName.register :
-        return MaterialPageRoute(builder: (_) => BlocProvider(
-          create: (context) => RegisterCubit(repository: repository),
-          child: RegisterPage(repository: repository,),
-        ));
-      case AppRouteName.PersonalInfo :
-        final ScreenArguments? data = settings.arguments as ScreenArguments?;
-
-
-        return MaterialPageRoute(builder: (BuildContext context){
-          print("${settings.name} ------ ${settings.arguments}");
-          final data = settings.arguments as ScreenArguments;
-          print("---------${data.message}");
-          return  MultiBlocProvider(providers: [
-            BlocProvider(
-              create: (context) => CountryCubit(repository: repository),
-            ),
-            BlocProvider(
-              create: (context) => GetStateCubit(repository: repository),
-            ),
-            BlocProvider(
-              create: (context) => GetCityCubit(repository: repository),
-            ),
-          ], child: PersonalInfoPage(repository: repository,mobile: data.message,));
-
+      case AppRouteName.register:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => RegisterCubit(repository: repository),
+                  child: RegisterPage(
+                    repository: repository,
+                  ),
+                ));
+      case AppRouteName.PersonalInfo:
+        return MaterialPageRoute(builder: (BuildContext context) {
+          return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => CountryCubit(repository: repository),
+                ),
+                BlocProvider(
+                  create: (context) => GetStateCubit(repository: repository),
+                ),
+                BlocProvider(
+                  create: (context) => GetCityCubit(repository: repository),
+                ),
+              ],
+              child: PersonalInfoPage(
+                repository: repository,
+                args: settings.arguments,
+              ));
         });
 
-      case AppRouteName.OtpPage :
-        return MaterialPageRoute(builder: (_) => BlocProvider(
-          create: (context) => SendOtpCubit(repository: repository),
-          child: OtpPage(),
-        ),
+      case AppRouteName.OtpPage:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => SendOtpCubit(repository: repository),
+            child: OtpPage(),
+          ),
         );
 
       default:

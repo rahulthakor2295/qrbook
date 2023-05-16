@@ -5,8 +5,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:qr_book/Cubit/personal_info/city/get_city_cubit.dart';
 import 'package:qr_book/Cubit/personal_info/country/country_cubit.dart';
 import 'package:qr_book/Data/repositry/repositry.dart';
-import 'package:qr_book/presentation/screens/otp_screen/opt_screen.dart';
-import 'package:qr_book/presentation/screens/register_screen/RegisterPage.dart';
 
 import '../../../Cubit/personal_info/State/get_state_cubit.dart';
 import '../../../Data/entity/personal_infomation/getCity/Data.dart';
@@ -21,8 +19,8 @@ enum AddrressType { home, office, other }
 
 class PersonalInfoPage extends StatefulWidget {
   Repository? repository;
-  String? mobile;
-  PersonalInfoPage({Key? key, this.repository,this.mobile}) : super(key: key);
+  Object? args;
+  PersonalInfoPage({Key? key, this.repository, this.args}) : super(key: key);
 
   @override
   State<PersonalInfoPage> createState() => _PersonalInfoPageState();
@@ -54,10 +52,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final  Map<String, Object> rcvdData = ModalRoute.of(context)?.settings.arguments as Map<String, Object>;
-    //
-    // // final data = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    // final mobileNumber = rcvdData['mobile'];
+    ScreenArguments? args = ScreenArguments.fromJson(widget.args as Map);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(statusBarColor: Color(0xFF473F97)),
@@ -69,11 +64,11 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
               Stack(
                 children: [
                   SvgPicture.asset('assets/icons/RectangleAppBar.svg'),
-                   Positioned(
+                  Positioned(
                       bottom: 32.0,
                       left: 25,
                       child: Text(
-                        "${widget.mobile}",
+                        "${args.title}",
                         style: TextStyle(
                             fontSize: 34,
                             color: Colors.white,
@@ -164,7 +159,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                       Padding(
                         padding: const EdgeInsets.only(top: 25.0),
                         child:
-                        Text("Country", style: TextStyle(fontSize: 25.0)),
+                            Text("Country", style: TextStyle(fontSize: 25.0)),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 14.0),
@@ -179,9 +174,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                 padding: const EdgeInsets.only(left: 10.0),
                                 child: Container(
                                     child: SvgPicture.asset(
-                                      '${'assets/icons/country.SVG'}',
-                                      height: 20.0,
-                                    )),
+                                  '${'assets/icons/country.SVG'}',
+                                  height: 20.0,
+                                )),
                               ),
                               Expanded(
                                 child: Padding(
@@ -203,7 +198,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                             child: CircularProgressIndicator(),
                                           );
                                         } else if (state
-                                        is CountrySuccessState) {
+                                            is CountrySuccessState) {
                                           var reponse =
                                               state.CountryResponse.data;
                                           country = reponse!;
@@ -235,8 +230,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                               return DropdownMenuItem(
                                                 value: item.name,
                                                 child: Padding(
-                                                  padding:
-                                                  const EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
                                                       horizontal: 20.0),
                                                   child: Text(
                                                     item.name.toString(),
@@ -249,7 +244,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                             ),
                                             onChanged: (newValue) {
                                               setState(() {
-                                                countryValue = newValue!;
+                                                countryValue =
+                                                    newValue! as String?;
                                               });
                                             },
                                           ),
@@ -280,9 +276,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                 padding: const EdgeInsets.only(left: 10.0),
                                 child: Container(
                                     child: SvgPicture.asset(
-                                      '${'assets/icons/locstion.SVG'}',
-                                      height: 20.0,
-                                    )),
+                                  '${'assets/icons/locstion.SVG'}',
+                                  height: 20.0,
+                                )),
                               ),
                               Expanded(
                                 child: Padding(
@@ -300,13 +296,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                             child: CircularProgressIndicator(),
                                           );
                                         } else if (state
-                                        is GetStateSuccessState) {
+                                            is GetStateSuccessState) {
                                           var reponseState =
                                               state.stateResponse.data;
                                           print('response===>$reponseState');
                                           stateList = reponseState!;
                                         } else if (state
-                                        is GetStateErrorState) {
+                                            is GetStateErrorState) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(content: Text('error')),
@@ -315,10 +311,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                         }
                                       },
                                       builder: (context, state) {
-                                        return   Flexible(
+                                        return Flexible(
                                           child: DropdownButtonFormField(
                                             isExpanded: true,
-
                                             decoration: InputDecoration(
                                                 border: InputBorder.none),
                                             value: stateValue,
@@ -331,12 +326,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                                 color: secondryColor,
                                               ),
                                             ),
-                                            items: stateList.map((DataState item) {
+                                            items:
+                                                stateList.map((DataState item) {
                                               return DropdownMenuItem(
                                                 value: item.name,
                                                 child: Padding(
-                                                  padding:
-                                                  const EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
                                                       horizontal: 20.0),
                                                   child: Text(
                                                     item.name.toString(),
@@ -349,7 +345,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                             ),
                                             onChanged: (newValue) {
                                               setState(() {
-                                                stateValue = newValue!;
+                                                stateValue =
+                                                    newValue! as String?;
                                               });
                                             },
                                           ),
@@ -380,9 +377,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                 padding: const EdgeInsets.only(left: 10.0),
                                 child: Container(
                                     child: SvgPicture.asset(
-                                      '${'assets/icons/locstion.SVG'}',
-                                      height: 20.0,
-                                    )),
+                                  '${'assets/icons/locstion.SVG'}',
+                                  height: 20.0,
+                                )),
                               ),
                               Expanded(
                                 child: Padding(
@@ -404,7 +401,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                             child: CircularProgressIndicator(),
                                           );
                                         } else if (state
-                                        is GetCitySuccessState) {
+                                            is GetCitySuccessState) {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             const SnackBar(
@@ -427,7 +424,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                         return Flexible(
                                           child: DropdownButtonFormField(
                                             isExpanded: true,
-
                                             decoration: InputDecoration(
                                                 border: InputBorder.none),
                                             value: cityValue,
@@ -440,12 +436,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                                 color: secondryColor,
                                               ),
                                             ),
-                                            items: cityList.map((DataCity item) {
+                                            items:
+                                                cityList.map((DataCity item) {
                                               return DropdownMenuItem(
                                                 value: item.name,
                                                 child: Padding(
-                                                  padding:
-                                                  const EdgeInsets.symmetric(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
                                                       horizontal: 20.0),
                                                   child: Text(
                                                     item.name.toString(),
@@ -458,7 +455,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                             ),
                                             onChanged: (newValue) {
                                               setState(() {
-                                                cityValue = newValue!;
+                                                cityValue =
+                                                    newValue! as String?;
                                               });
                                             },
                                           ),
@@ -487,15 +485,21 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 child: Column(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 47.0,top: 40.0,),
+                      padding: const EdgeInsets.only(
+                        bottom: 47.0,
+                        top: 40.0,
+                      ),
                       child: MaterialButton(
                         minWidth: 304.00,
                         height: 52.00,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(26.00)),
-                        onPressed: () {Navigator.pushNamed(context, AppRouteName.OtpPage,
-
-                        );},
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            AppRouteName.OtpPage,
+                          );
+                        },
                         child: Text(
                           "Submit",
                           style: TextStyle(

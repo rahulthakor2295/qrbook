@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
-import 'package:qr_book/Cubit/register/register_cubit.dart';
 import 'package:qr_book/Cubit/verify_number/verify_number_cubit.dart';
 import 'package:qr_book/Data/repositry/repositry.dart';
 import 'package:qr_book/constant/widget_color/widget_color.dart';
@@ -12,7 +10,7 @@ import 'package:qr_book/page_routes/routes_name.dart';
 
 class LoginPage extends StatefulWidget {
   late Repository repository;
-   LoginPage({Key? key,required this.repository}) : super(key: key);
+  LoginPage({Key? key, required this.repository}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -34,24 +32,24 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               Container(
                   child: Stack(
-                    children: [
-                      SvgPicture.asset('assets/icons/RectangleAppBar.svg'),
-                      Positioned(
-                          bottom: 32.0,
-                          left: 25,
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                                fontSize: 34,
-                                color: Colors.white,
-                                fontFamily: 'openSans_normal',
-                                fontWeight: FontWeight.w600),
-                          )),
-                    ],
-                  )),
+                children: [
+                  SvgPicture.asset('assets/icons/RectangleAppBar.svg'),
+                  Positioned(
+                      bottom: 32.0,
+                      left: 25,
+                      child: Text(
+                        "Login",
+                        style: TextStyle(
+                            fontSize: 34,
+                            color: Colors.white,
+                            fontFamily: 'openSans_normal',
+                            fontWeight: FontWeight.w600),
+                      )),
+                ],
+              )),
               Padding(
                 padding:
-                const EdgeInsets.only(top: 30.0, left: 25.0, right: 25.00),
+                    const EdgeInsets.only(top: 30.0, left: 25.0, right: 25.00),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -71,9 +69,9 @@ class _LoginPageState extends State<LoginPage> {
                                 padding: const EdgeInsets.only(left: 10.0),
                                 child: Container(
                                     child: SvgPicture.asset(
-                                      'assets/icons/into_page/phone_ic.SVG',
-                                      height: 20.0,
-                                    )),
+                                  'assets/icons/into_page/phone_ic.SVG',
+                                  height: 20.0,
+                                )),
                               ),
                               Expanded(
                                 child: Padding(
@@ -110,15 +108,17 @@ class _LoginPageState extends State<LoginPage> {
                             BlocConsumer<VerifyNumberCubit, VerifyNumberState>(
                               listener: (context, state) {
                                 if (state is VerifyNumberLoadingState) {
-                                  Center(child: CircularProgressIndicator(),);
+                                  Center(
+                                    child: CircularProgressIndicator(),
+                                  );
                                 } else if (state is VerifyNumberSuccessState) {
-                                  final reponse = state.verifyNumberResponse
-                                      .message;
+                                  final reponse =
+                                      state.verifyNumberResponse.message;
                                   print('$reponse');
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text(
-                                        '${state.verifyNumberResponse
-                                            .message}')),
+                                    SnackBar(
+                                        content: Text(
+                                            '${state.verifyNumberResponse.message}')),
                                   );
                                 } else if (state is VerifyNumberErrorState) {
                                   print('error');
@@ -129,8 +129,8 @@ class _LoginPageState extends State<LoginPage> {
                                   minWidth: 304.00,
                                   height: 52.00,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          26.00)),
+                                      borderRadius:
+                                          BorderRadius.circular(26.00)),
                                   onPressed: () {
                                     loginValidator();
                                   },
@@ -147,8 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             ),
                             Padding(
-                              padding:
-                              const EdgeInsets.only(top: 25.0),
+                              padding: const EdgeInsets.only(top: 25.0),
                               child: Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -156,14 +155,13 @@ class _LoginPageState extends State<LoginPage> {
                                     Text("Don'n have an account ?"),
                                     TextButton(
                                         onPressed: () {
-                                         Navigator.pushNamed(
-                                                context, AppRouteName.register);
-
+                                          Navigator.pushNamed(
+                                              context, AppRouteName.register);
                                         },
                                         child: Text(
                                           "Register Now",
-                                          style:
-                                          TextStyle(color: Color(0xFF473F97)),
+                                          style: TextStyle(
+                                              color: Color(0xFF473F97)),
                                         )),
                                   ],
                                 ),
