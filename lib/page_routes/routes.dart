@@ -51,17 +51,25 @@ class AppRouter {
           child: RegisterPage(repository: repository,),
         ));
       case AppRouteName.PersonalInfo :
-        return MaterialPageRoute(builder: (BuildContext context) {
-          final data = settings.arguments as ScreenArguments?;
-          final mobile = data?.message ?? ''; // use empty string if data or message is null
-          return MultiBlocProvider(
-            providers: [
-              BlocProvider(create: (context) => CountryCubit(repository: repository)),
-              BlocProvider(create: (context) => GetStateCubit(repository: repository)),
-              BlocProvider(create: (context) => GetCityCubit(repository: repository,)),
-            ],
-            child: PersonalInfoPage(repository: repository, mobile: mobile),
-          );
+        final ScreenArguments? data = settings.arguments as ScreenArguments?;
+
+
+        return MaterialPageRoute(builder: (BuildContext context){
+          print("${settings.name} ------ ${settings.arguments}");
+          final data = settings.arguments as ScreenArguments;
+          print("---------${data.message}");
+          return  MultiBlocProvider(providers: [
+            BlocProvider(
+              create: (context) => CountryCubit(repository: repository),
+            ),
+            BlocProvider(
+              create: (context) => GetStateCubit(repository: repository),
+            ),
+            BlocProvider(
+              create: (context) => GetCityCubit(repository: repository),
+            ),
+          ], child: PersonalInfoPage(repository: repository,mobile: data.message,));
+
         });
 
       case AppRouteName.OtpPage :
