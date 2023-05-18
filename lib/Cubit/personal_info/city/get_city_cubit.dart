@@ -12,11 +12,11 @@ class GetCityCubit extends Cubit<GetCityState> {
 
   GetCityCubit({required this.repository}) : super(GetCityInitial());
 
-  void getCity() async {
+  void getCity(int? stateId) async {
     emit(GetCityLoadingState());
     GetCityModel? cityResponse;
     try {
-      cityResponse = await repository?.getCity();
+      cityResponse = await repository?.getCity(stateId!);
       emit(GetCitySuccessState (cityResponse!));
     } on DioError catch (ex) {
       if (ex.type == DioErrorType.connectTimeout) {

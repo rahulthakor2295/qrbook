@@ -40,7 +40,8 @@ class IntroPage03 extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(26.00)),
                 onPressed: () {
-                  Navigator.pushNamed(context, AppRouteName.Login);
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil(AppRouteName.Login, (Route<dynamic> route) => false);
                 },
                 child: Text(
                   "Get Started",

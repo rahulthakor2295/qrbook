@@ -8,4 +8,5 @@ class AppRouteName {
   static const String   register = '/register_screen';
   static const String   PersonalInfo = '/personal_screen';
   static const String   OtpPage = '/otp_screen';
+  static const String   home = '/home_screen';
 }

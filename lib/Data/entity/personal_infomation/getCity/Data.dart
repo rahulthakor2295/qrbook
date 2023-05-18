@@ -1,27 +1,35 @@
 class DataCity {
   DataCity({
-      this.stateName, 
+      this.id, 
+      this.stateId, 
       this.name, 
       this.createdAt, 
-      this.updatedAt,});
+      this.updatedAt, 
+      this.deletedAt,});
 
   DataCity.fromJson(dynamic json) {
-    stateName = json['state_name'];
+    id = json['id'];
+    stateId = json['state_id'];
     name = json['name'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
   }
-  String? stateName;
+  int? id;
+  int? stateId;
   String? name;
   String? createdAt;
   String? updatedAt;
+  dynamic? deletedAt;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['state_name'] = stateName;
+    map['id'] = id;
+    map['state_id'] = stateId;
     map['name'] = name;
     map['created_at'] = createdAt;
     map['updated_at'] = updatedAt;
+    map['deleted_at'] = deletedAt;
     return map;
   }
 

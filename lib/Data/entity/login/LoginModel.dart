@@ -1,31 +1,26 @@
 import 'Data.dart';
 
-class GetStateModel {
-  GetStateModel({
+class LoginModel {
+  LoginModel({
       this.status, 
       this.message, 
       this.data,});
 
-  GetStateModel.fromJson(dynamic json) {
+  LoginModel.fromJson(dynamic json) {
     status = json['status'];
     message = json['message'];
-    if (json['data'] != null) {
-      data = [];
-      json['data'].forEach((v) {
-        data?.add(DataState.fromJson(v));
-      });
-    }
+    data = json['data'] != null ? LoginData.fromJson(json['data']) : null;
   }
   bool? status;
   String? message;
-  List<DataState>? data;
+  LoginData? data;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = status;
     map['message'] = message;
     if (data != null) {
-      map['data'] = data?.map((v) => v.toJson()).toList();
+      map['data'] = data?.toJson();
     }
     return map;
   }

@@ -12,7 +12,9 @@ class Data {
       this.pincode, 
       this.addressLine1, 
       this.addressLine2, 
-      this.landmark,});
+      this.landmark,
+    this.addressType,
+  });
 
   Data.fromJson(dynamic json) {
     firstName = json['first_name'];
@@ -28,6 +30,7 @@ class Data {
     addressLine1 = json['address_line1'];
     addressLine2 = json['address_line2'];
     landmark = json['landmark'];
+    addressType = json['address_type'];
   }
   String? firstName;
   String? lastName;
@@ -42,6 +45,7 @@ class Data {
   String? addressLine1;
   String? addressLine2;
   String? landmark;
+  int? addressType;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -58,6 +62,7 @@ class Data {
     map['address_line1'] = addressLine1;
     map['address_line2'] = addressLine2;
     map['landmark'] = landmark;
+    map['address_type'] = addressType;
     return map;
   }
 

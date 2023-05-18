@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:dio_logging_interceptor/dio_logging_interceptor.dart';
+import 'package:qr_book/Data/entity/login/LoginModel.dart';
 import 'package:qr_book/Data/entity/personal_infomation/get_state/GetStateModel.dart';
 import 'package:retrofit/http.dart';
 
@@ -21,8 +22,8 @@ abstract class ApiClient {
     dio.options = BaseOptions(
       receiveTimeout: 30000,
       connectTimeout: 30000,
-      headers: { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL3YxL2N1c3RvbWVyL2F1dGgvbG9naW4tbW9iaWxlIiwiaWF0IjoxNjgyNDg4MTIxLCJleHAiOjE2ODUxMTYxMjEsIm5iZiI6MTY4MjQ4ODEyMSwianRpIjoidFBsUzRrS2hxTXBNcGVZNSIsInN1YiI6IjM2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.xWI12GKZV3BEGF8cPQ7e1H7Y1nrzCPIUAwEpEtfRPiw'},
       responseType: ResponseType.plain,
+      headers: { 'Authorization' : 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL3YxL2N1c3RvbWVyL2F1dGgvbG9naW4tbW9iaWxlIiwiaWF0IjoxNjgyNDg4MTIxLCJleHAiOjE2ODUxMTYxMjEsIm5iZiI6MTY4MjQ4ODEyMSwianRpIjoidFBsUzRrS2hxTXBNcGVZNSIsInN1YiI6IjM2IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.xWI12GKZV3BEGF8cPQ7e1H7Y1nrzCPIUAwEpEtfRPiw'},
     );
     dio.interceptors.add(
       DioLoggingInterceptor(
@@ -52,6 +53,14 @@ abstract class ApiClient {
   Future<VerifyNumberModel>verifyNumber(
       @Field('mobile_number')mobileNumber
       );
+//login
+  @POST('customer/auth/login-mobile')
+  @FormUrlEncoded()
+  Future<LoginModel>login(
+      @Field('mobile_number')mobileNumber,
+      @Field('device_id') deviceId,
+      @Field('device_type') deviceType,
+      );
 
   @POST('customer/auth/register-mobile')
   @FormUrlEncoded()
@@ -69,9 +78,9 @@ abstract class ApiClient {
       @Field('state_id') stateId,
       @Field('city_id') cityId,
       @Field('pincode')pincode,
+      @Field('address_type')addressType,
 
       );
-
 
   @POST('School/get_ad_image.php')
   @FormUrlEncoded()
@@ -86,12 +95,16 @@ abstract class ApiClient {
   Future<GetCountryModel> getCountry ();
 
 
- @GET('customer/get-state')
-  Future<GetStateModel> getState ();
+  @GET("customer/get-state")
+  Future<GetStateModel> getState(
+      @Query("country_id")int? countryId,
+      );
 
 
- @GET('customer/get-state')
-  Future<GetCityModel> getCity ();
+ @GET('customer/get-city')
+  Future<GetCityModel> getCity (
+     @Query("state_id")int?  stateId,
+     );
 
   @POST('customer/auth/send-otp')
   Future<SendOtpModel> sendOtp (

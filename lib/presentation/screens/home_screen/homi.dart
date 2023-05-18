@@ -1,11 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qr_book/Cubit/login/login_cubit.dart';
 
-class Homii extends StatelessWidget {
-  final String  myName;
+import '../../../Data/entity/login/User.dart';
 
-  const Homii({Key? key, required this.myName,}) : super(key: key);
+class Homii extends StatefulWidget {
+
+   Homii({Key? key}) : super(key: key);
+
+  @override
+  State<Homii> createState() => _HomiiState();
+}
+
+class _HomiiState extends State<Homii> {
+List<LoginUser> loginData = [];
+
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("$myName"),);
+    return Scaffold(body: SingleChildScrollView(child: Column(children: [
+      BlocConsumer<LoginCubit, LoginState>(
+        listener: (context, state) {
+          if(state is LoginLoadingState){
+            print("lonadingg.....");
+          }else if (state is LoginSuccessState){
+            final respons = state.loginResponse.data?.user;
+            loginData = respons as List<LoginUser>;
+          }else if(state is  LoginErrorState){
+            print("Error");
+          }
+        },
+        builder: (context, state) {
+          return ListView.builder(
+itemCount: loginData.length,
+              itemBuilder: (BuildContext context, index) {
+                return Text('${loginData[index].email}');
+              });
+        },
+      )
+    ],),),);
   }
 }

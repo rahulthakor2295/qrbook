@@ -12,26 +12,40 @@ class RegisterCubit extends Cubit<RegisterState> {
   RegisterCubit({required this.repository}) : super(RegisterInitial());
 
   void register(
-       String firstName,
-       String lastName,
-       String email,
-       String mobileNumber,
-      String deviceId ,
+      String firstName,
+      String lastName,
+      String email,
+      String mobileNumber,
+      String deviceId,
       String dedeviceType,
       String? addressLine1,
       String? addressLine2,
       String? landmark,
-      String? countryId,
-      String? stateId,
-      String? cityId,
-      String? pincode) async {
+      int? countryId,
+      int? stateId,
+      int? cityId,
+      String? pincode,
+      int addressType) async {
     print("Api call  -=====>");
     emit(RegisterLoadingState());
     RegisterModel? RegisterResponse;
     try {
       print("Api call  -=====>");
-      RegisterResponse =
-      await repository?.register(firstName, lastName, email, mobileNumber,deviceId,dedeviceType,addressLine1,addressLine2,landmark,countryId,stateId,cityId,pincode);
+      RegisterResponse = await repository?.register(
+          firstName,
+          lastName,
+          email,
+          mobileNumber,
+          deviceId,
+          dedeviceType,
+          addressLine1,
+          addressLine2,
+          landmark,
+          countryId,
+          stateId,
+          cityId,
+          pincode,
+          addressType);
       print("Api response  -=====>" + RegisterResponse.toString());
       emit(RegisterSuccessState(RegisterResponse!));
     } on DioError catch (ex) {
@@ -41,7 +55,7 @@ class RegisterCubit extends Cubit<RegisterState> {
 
         emit(RegisterErrorState(
             error:
-            "Connection time out. Please check your internet connection."));
+                "Connection time out. Please check your internet connection."));
       } else {
         if (ex.response?.statusCode == 400) {
           try {

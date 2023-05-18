@@ -12,11 +12,11 @@ class GetStateCubit extends Cubit<GetStateState> {
 
   GetStateCubit({required this.repository}) : super(GetStateInitial());
 
-  void getState() async {
+  void getState(int? countryId) async {
     emit(GetStateLoadingState());
     GetStateModel? stateResponse;
     try {
-      stateResponse = await repository?.geState();
+      stateResponse = await repository?.geState(countryId!);
       emit(GetStateSuccessState (stateResponse!));
     } on DioError catch (ex) {
       if (ex.type == DioErrorType.connectTimeout) {

@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qr_book/Cubit/register/register_cubit.dart';
+import 'package:qr_book/Cubit/verify_number/verify_number_cubit.dart';
 import 'package:qr_book/page_routes/routes_name.dart';
 
 import '../../../Data/repositry/repositry.dart';
@@ -25,233 +27,260 @@ class _RegisterPageState extends State<RegisterPage> {
   TextEditingController emailController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List repoList = [];
 
   // registrestion or not bool value
   bool? status;
   String? message;
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(statusBarColor: Color(0xFF473F97)),
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Stack(
-                children: [
-                  SvgPicture.asset('assets/icons/RectangleAppBar.svg'),
-                  const Positioned(
-                      bottom: 32.0,
-                      left: 25,
-                      child: Text(
-                        "Register",
-                        style: TextStyle(
-                            fontSize: 34,
-                            color: Colors.white,
-                            fontFamily: 'openSans_normal',
-                            fontWeight: FontWeight.w600),
-                      )),
-                ],
-              ),
-              Form(
-                key: _formKey,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 25.0, right: 25),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: TextFieldWidget(
-                          // validator:nameValidator,
-                          textEditingController: fistNameController,
-                          lable: 'First Name',
-                          icon: 'assets/icons/into_page/phone_ic.SVG',
-                          hintText: 'enter first name',
-                        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Stack(
+              children: [
+                SvgPicture.asset('assets/icons/RectangleAppBar.svg'),
+                const Positioned(
+                    bottom: 32.0,
+                    left: 25,
+                    child: Text(
+                      "Register",
+                      style: TextStyle(
+                          fontSize: 34,
+                          color: Colors.white,
+                          fontFamily: 'openSans_normal',
+                          fontWeight: FontWeight.w600),
+                    )),
+              ],
+            ),
+            Expanded(
+              flex: 1,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                physics: PageScrollPhysics(),
+                child: Container(
+
+                  child: Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 25.0, right: 25),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: TextFieldWidget(
+                              textFormField: TextFormField(
+                                controller: fistNameController,
+                                keyboardType: TextInputType.name,
+                                decoration: InputDecoration(
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintText: "enter first name",
+                                ),
+                                validator: (value) {
+                                  if (value!.length <= 2) {
+                                    return 'Enter a valid First Name';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  fistNameController.value =
+                                      value.trim() as TextEditingValue;
+                                },
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                              ),
+                              lable: 'First Name',
+                              icon: 'assets/icons/person_ic.SVG',
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: TextFieldWidget(
+                              textFormField: TextFormField(
+                                keyboardType: TextInputType.name,
+                                controller: lastNameController,
+                                decoration: InputDecoration(
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintText: "enter last name",
+                                ),
+                                validator: (value) {
+                                  if (value!.length <= 2) {
+                                    return 'Enter a valid Last Name';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  lastNameController.value =
+                                      value.trim() as TextEditingValue;
+                                },
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                              ),
+                              lable: 'Last Name',
+                              icon: 'assets/icons/person_ic.SVG',
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: TextFieldWidget(
+                              textFormField: TextFormField(
+                                controller: phoneNumberController,
+                                keyboardType: TextInputType.phone,
+                                decoration: InputDecoration(
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintText: "enter mobile number",
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty || value.length != 10) {
+                                    return 'Enter a valid Mobile';
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  phoneNumberController.value =
+                                      value.trim() as TextEditingValue;
+                                },
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                              ),
+                              lable: 'Phone Number',
+                              icon: 'assets/icons/into_page/phone_ic.SVG',
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5.0),
+                            child: TextFieldWidget(
+                              textFormField: TextFormField(
+                                keyboardType: TextInputType.emailAddress,
+                                controller: emailController,
+                                decoration: InputDecoration(
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  hintText: "enter email",
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty ||
+                                      !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                          .hasMatch(value)) {
+                                    return 'Enter a valid email!';
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                onChanged: (value) {
+                                  emailController.value =
+                                      value.trim() as TextEditingValue;
+                                },
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                              ),
+                              lable: 'Email',
+                              icon: 'assets/icons/email_ic.SVG',
+                            ),
+                          ),
+                          Center(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 40.0),
+                                  child: BlocConsumer<VerifyNumberCubit, VerifyNumberState>(
+                                    listener: (context, state) {
+                                      if (state is VerifyNumberLoadingState) {
+                                        Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      } else if (state is VerifyNumberSuccessState) {
+                                        final reponse = state.verifyNumberResponse.message;
+                                        if (state.verifyNumberResponse.status == true) {
+                                          Navigator.pushNamed(
+                                              context, AppRouteName.PersonalInfo,
+                                              arguments: {
+                                                "firstname": "${fistNameController.text}",
+                                                "lastname": "${lastNameController.text}",
+                                                "mobile": "${phoneNumberController.text}",
+                                                "email": "${emailController.text}"
+                                              });
+                                        } else {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                                content: Text(
+                                                    '${state.verifyNumberResponse.message}')),
+                                          );
+                                          Navigator.pop(context);
+                                        }
+                                      } else if (state is VerifyNumberErrorState) {
+                                        print('error');
+                                      }
+                                    },
+                                    builder: (context, state) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(bottom: 37.0),
+                                        child: MaterialButton(
+                                          minWidth: 304.00,
+                                          height: 52.00,
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(26.00)),
+                                          onPressed: () {
+                                            if (_formKey.currentState!.validate()) {
+                                              context.read<VerifyNumberCubit>().VerifyNumber(phoneNumberController.text.toString());
+                                            }
+                                          },
+                                          child: Text(
+                                            "Next",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.white,
+                                              fontFamily: 'openSans_normal',
+                                            ),
+                                          ),
+                                          color: primaryColor,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      TextFieldWidget(
-                        // validator: lastnameValidator,
-                        textEditingController: lastNameController,
-                        lable: 'Last Name',
-                        icon: 'assets/icons/person_ic.SVG',
-                        hintText: 'enter last name',
-                      ),
-                      TextFieldWidget(
-                        // validator: validateMobile,
-                        textEditingController: phoneNumberController,
-                        lable: 'Phone Number',
-                        icon: 'assets/icons/into_page/phone_ic.SVG',
-                        hintText: 'enter phone name',
-                      ),
-                      TextFieldWidget(
-                        // validator: emailValidator,
-                        textEditingController: emailController,
-                        lable: 'Email Address',
-                        icon: 'assets/icons/email_ic.SVG',
-                        hintText: 'enter email address',
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
-              Center(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40.0),
-                      child: BlocConsumer<RegisterCubit, RegisterState>(
-                        listener: (context, state) {
-                          if (state is RegisterLoadingState) {
-                            const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (state is RegisterSuccessState) {
-                            final reponse = state.RegisterResponse.data;
-                            status = state.RegisterResponse.status;
-                            // message = state.RegisterResponse.message;
-                            print('$reponse');
-                            // repoList = reponse as List<Data>;
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text(
-                                      '${state.RegisterResponse.message}')),
-                            );
-                            print("${reponse}");
-                          } else if (state is RegisterErrorState) {
-                            print('error');
-                          }
-                        },
-                        builder: (context, state) {
-                          return MaterialButton(
-                            minWidth: 304.00,
-                            height: 52.00,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(26.00)),
-                            onPressed: () {
-                              // context.read<RegisterCubit>().register(
-                              //    fistNameController.text,
-                              //    lastNameController.text,
-                              //    emailController.text,
-                              //    phoneNumberController.text,
-                              //   "abcde77544554wewewewewe",
-                              //   '0',
-                              //   '',
-                              //   '',
-                              //   '',
-                              //   '',
-                              //   '',
-                              //   '',
-                              //   '',
-                              // );
-                              //   final myData = {
-                              //     'mobile' : 'rahul',
-                              //     // 'firstName' : fistNameController.text,
-                              //     // 'lastName' : lastNameController.text,
-                              //     // 'email' : emailController.text,
-                              //   };
+            ),
 
-                              // Navigator.pushNamed(context, AppRouteName.PersonalInfo,arguments: {
-                              //   'mobile' : '9601582609'
-                              // });
-                              Navigator.pushNamed(
-                                context,
-                                AppRouteName.PersonalInfo,
-                                arguments: ScreenArguments('Hello', 'World'),
-                              );
-                              // if(_formKey.currentState!.validate()){
-                              // }
-                            },
-                            child: Text(
-                              "Register",
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.white,
-                                fontFamily: 'openSans_normal',
-                              ),
-                            ),
-                            color: primaryColor,
-                          );
-                        },
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 25.0),
-                      child: Center(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Don'n have an account ?"),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(
-                                      context, AppRouteName.PersonalInfo,
-                                      arguments: {
-                                        "title": "test",
-                                        "message": "hello"
-                                      });
-                                },
-                                child: Text(
-                                  "Login",
-                                  style: TextStyle(color: Color(0xFF473F97)),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          ],
         ),
       ),
     );
   }
-
-  String? emailValidator(String value) {
-    if (value.isEmpty ||
-        !RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-      return "Enter Correct Email Address";
-    } else {
-      return null;
-    }
-  }
-
-  String? nameValidator(String value) {
-    if (value.isEmpty ||
-        !RegExp(r"^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)")
-            .hasMatch(value)) {
-      return "Enter Correct Name";
-    }
-    return null;
-  }
-
-  String? lastnameValidator(String value) {
-    if (value.isEmpty ||
-        !RegExp(r"^([a-zA-Z]{2,}\s[a-zA-Z]{1,}'?-?[a-zA-Z]{2,}\s?([a-zA-Z]{1,})?)")
-            .hasMatch(value)) {
-      return "Enter Correct Name";
-    }
-    return null;
-  }
-
-  String? validateMobile(String value) {
-// Indian Mobile number are of 10 digit only
-    if (value.length != 10)
-      return 'Mobile Number must be of 10 digit';
-    else
-      return null;
-  }
 }
+//
+// context.read<RegisterCubit>().register(
+//       fistNameController.text,
+//       lastNameController.text,
+//       emailController.text,
+//       phoneNumberController.text,
+//       "abcde77544554wewewewewe",
+//       '0',
+//       '',
+//       '',
+//       '',
+//       '',
+//       '',
+//       '',
+//       '',
+//     );
 
-//email Validator
-extension EmailValidator on String {
-  bool isValidEmail() {
-    return RegExp(
-            r'^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-        .hasMatch(this);
-  }
-}
+// if(_formKey.currentState!.validate()){
+// }

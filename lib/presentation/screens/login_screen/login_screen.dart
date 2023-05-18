@@ -3,14 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pinput/pinput.dart';
+import 'package:qr_book/Cubit/login/login_cubit.dart';
 import 'package:qr_book/Cubit/verify_number/verify_number_cubit.dart';
 import 'package:qr_book/Data/repositry/repositry.dart';
 import 'package:qr_book/constant/widget_color/widget_color.dart';
 import 'package:qr_book/page_routes/routes_name.dart';
 
+import '../../passdata.dart';
+
 class LoginPage extends StatefulWidget {
   late Repository repository;
-  LoginPage({Key? key, required this.repository}) : super(key: key);
+  LoginPage({Key? key, required this.repository,}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -31,9 +34,10 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
+                width: double.infinity,
                   child: Stack(
                 children: [
-                  SvgPicture.asset('assets/icons/RectangleAppBar.svg'),
+                  SvgPicture.asset('assets/icons/RectangleAppBar.svg',),
                   Positioned(
                       bottom: 32.0,
                       left: 25,
@@ -114,12 +118,24 @@ class _LoginPageState extends State<LoginPage> {
                                 } else if (state is VerifyNumberSuccessState) {
                                   final reponse =
                                       state.verifyNumberResponse.message;
-                                  print('$reponse');
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            '${state.verifyNumberResponse.message}')),
-                                  );
+                                  if(state.verifyNumberResponse.status == true){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              '${state.verifyNumberResponse.message}')),
+                                    );
+                                    Navigator.pushNamed(context, AppRouteName.register);
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              '${state.verifyNumberResponse.message}')),
+                                    );
+                                    Navigator.pushNamed(context, AppRouteName.OtpPage,arguments: {
+                                      'mobile' : phoneController.text,
+                                      'login_register' : true,
+                                    });
+                                  }
                                 } else if (state is VerifyNumberErrorState) {
                                   print('error');
                                 }

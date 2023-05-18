@@ -1,16 +1,19 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qr_book/Cubit/login/login_cubit.dart';
 import 'package:qr_book/Cubit/personal_info/country/country_cubit.dart';
 import 'package:qr_book/Cubit/register/register_cubit.dart';
 import 'package:qr_book/Cubit/verify_number/verify_number_cubit.dart';
 import 'package:qr_book/page_routes/routes_name.dart';
+import 'package:qr_book/presentation/screens/home_screen/home%20screen.dart';
 
 import '../Cubit/personal_info/State/get_state_cubit.dart';
 import '../Cubit/personal_info/city/get_city_cubit.dart';
 import '../Cubit/send_otp/send_otp_cubit.dart';
 import '../Data/apiclient/ApiClient.dart';
 import '../Data/repositry/repositry.dart';
+import '../presentation/screens/home_screen/homi.dart';
 import '../presentation/screens/login_screen/login_screen.dart';
 import '../presentation/screens/otp_screen/opt_screen.dart';
 import '../presentation/screens/pageview/intro_page_03.dart';
@@ -37,22 +40,38 @@ class AppRouter {
       case AppRouteName.start:
         return MaterialPageRoute(builder: (_) => IntroPage03());
       case AppRouteName.Login:
-        return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => VerifyNumberCubit(repository: repository),
-            child: LoginPage(
-              repository: repository,
-            ),
-          ),
-        );
+        return MaterialPageRoute(builder: (BuildContext context) {
+          return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) =>
+                      VerifyNumberCubit(repository: repository),
+                ),
+                BlocProvider(
+                  create: (context) => LoginCubit(repository: repository),
+                ),
+              ],
+              child: LoginPage(
+                repository: repository,
+              ));
+        });
       case AppRouteName.register:
-        return MaterialPageRoute(
-            builder: (_) => BlocProvider(
+        return MaterialPageRoute(builder: (BuildContext context) {
+          return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) =>
+                      VerifyNumberCubit(repository: repository),
+                ),
+                BlocProvider(
                   create: (context) => RegisterCubit(repository: repository),
-                  child: RegisterPage(
-                    repository: repository,
-                  ),
-                ));
+                ),
+              ],
+              child: RegisterPage(
+                repository: repository,
+              ));
+        });
+
       case AppRouteName.PersonalInfo:
         return MaterialPageRoute(builder: (BuildContext context) {
           return MultiBlocProvider(
@@ -66,6 +85,9 @@ class AppRouter {
                 BlocProvider(
                   create: (context) => GetCityCubit(repository: repository),
                 ),
+                BlocProvider(
+                  create: (context) => RegisterCubit(repository: repository),
+                ),
               ],
               child: PersonalInfoPage(
                 repository: repository,
@@ -74,13 +96,29 @@ class AppRouter {
         });
 
       case AppRouteName.OtpPage:
+        return MaterialPageRoute(builder: (BuildContext context) {
+          return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => LoginCubit(repository: repository),
+                ),
+                BlocProvider(
+                  create: (context) => RegisterCubit(repository: repository),
+                ),
+                BlocProvider(
+                  create: (context) => SendOtpCubit(repository: repository),
+                ),
+              ],
+              child: OtpPage(
+                args: settings.arguments,
+              ));
+        });
+      case AppRouteName.home:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => SendOtpCubit(repository: repository),
-            child: OtpPage(),
-          ),
-        );
-
+            builder: (_) => BlocProvider(
+                  create: (context) => LoginCubit(repository: repository),
+                  child: Homii(),
+                ));
       default:
         return null;
     }
