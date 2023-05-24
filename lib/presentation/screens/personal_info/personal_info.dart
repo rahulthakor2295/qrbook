@@ -25,6 +25,7 @@ enum AddrressType { home, office, other }
 class PersonalInfoPage extends StatefulWidget {
   Repository? repository;
   Object? args;
+
   PersonalInfoPage({Key? key, this.repository, this.args}) : super(key: key);
 
   @override
@@ -51,6 +52,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   //response status
   bool? respoStatus;
   String? repoMessage;
+
   @override
   void initState() {
     context.read<CountryCubit>().country();
@@ -62,6 +64,7 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
   int? cityId;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -240,8 +243,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(top: 25.0),
-                            child:
-                                Text("Country", style: TextStyle(fontSize: 25.0)),
+                            child: Text("Country",
+                                style: TextStyle(fontSize: 25.0)),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 14.0),
@@ -262,7 +265,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 30.0),
+                                      padding:
+                                          const EdgeInsets.only(left: 30.0),
                                       child: Container(
                                         width: double.minPositive,
                                         decoration: BoxDecoration(
@@ -274,20 +278,24 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                             if (state is CountryLoadingState) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(content: Text('loading')),
+                                                SnackBar(
+                                                    content: Text('loading')),
                                               );
                                               const Center(
-                                                child: CircularProgressIndicator(),
+                                                child:
+                                                    CircularProgressIndicator(),
                                               );
                                             } else if (state
                                                 is CountrySuccessState) {
                                               var reponse =
                                                   state.CountryResponse.data;
                                               country = reponse!;
-                                            } else if (state is CountryErrorState) {
+                                            } else if (state
+                                                is CountryErrorState) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(content: Text('error')),
+                                                SnackBar(
+                                                    content: Text('error')),
                                               );
                                               print('error');
                                             }
@@ -300,8 +308,9 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                                     border: InputBorder.none),
                                                 value: countryValue,
                                                 icon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      right: 20.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 20.0),
                                                   child: const Icon(
                                                     Icons.keyboard_arrow_down,
                                                     size: 28,
@@ -332,10 +341,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                                     Data? desiredCountry =
                                                         country.firstWhere(
                                                       (country) =>
-                                                          country.name == newValue,
+                                                          country.name ==
+                                                          newValue,
                                                     );
-                                                    if (desiredCountry != null) {
-                                                      countryId = desiredCountry.id;
+                                                    if (desiredCountry !=
+                                                        null) {
+                                                      countryId =
+                                                          desiredCountry.id;
                                                       context
                                                           .read<GetStateCubit>()
                                                           .getState(countryId);
@@ -361,7 +373,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 25.0),
-                            child: Text("State", style: TextStyle(fontSize: 25.0)),
+                            child:
+                                Text("State", style: TextStyle(fontSize: 25.0)),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 14.0),
@@ -382,7 +395,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 30.0),
+                                      padding:
+                                          const EdgeInsets.only(left: 30.0),
                                       child: Container(
                                         width: double.minPositive,
                                         decoration: BoxDecoration(
@@ -393,19 +407,22 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                           listener: (context, state) {
                                             if (state is GetStateLoadingState) {
                                               const Center(
-                                                child: CircularProgressIndicator(),
+                                                child:
+                                                    CircularProgressIndicator(),
                                               );
                                             } else if (state
                                                 is GetStateSuccessState) {
                                               var reponseState =
                                                   state.stateResponse.data;
-                                              print('response===>$reponseState');
+                                              print(
+                                                  'response===>$reponseState');
                                               stateList = reponseState!;
                                             } else if (state
                                                 is GetStateErrorState) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(content: Text('error')),
+                                                SnackBar(
+                                                    content: Text('error')),
                                               );
                                               print('error');
                                             }
@@ -418,16 +435,17 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                                     border: InputBorder.none),
                                                 value: stateValue,
                                                 icon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      right: 20.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 20.0),
                                                   child: const Icon(
                                                     Icons.keyboard_arrow_down,
                                                     size: 28,
                                                     color: secondryColor,
                                                   ),
                                                 ),
-                                                items:
-                                                    stateList.map((DataState item) {
+                                                items: stateList
+                                                    .map((DataState item) {
                                                   return DropdownMenuItem(
                                                     value: item.name,
                                                     child: Padding(
@@ -451,10 +469,13 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                                     DataState? desiredCountry =
                                                         stateList.firstWhere(
                                                       (state) =>
-                                                          state.name == newValue,
+                                                          state.name ==
+                                                          newValue,
                                                     );
-                                                    if (desiredCountry != null) {
-                                                      stateId = desiredCountry.id;
+                                                    if (desiredCountry !=
+                                                        null) {
+                                                      stateId =
+                                                          desiredCountry.id;
                                                       context
                                                           .read<GetCityCubit>()
                                                           .getCity(stateId);
@@ -479,7 +500,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 25.0),
-                            child: Text("city", style: TextStyle(fontSize: 25.0)),
+                            child:
+                                Text("city", style: TextStyle(fontSize: 25.0)),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 14.0),
@@ -500,7 +522,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                   ),
                                   Expanded(
                                     child: Padding(
-                                      padding: const EdgeInsets.only(left: 30.0),
+                                      padding:
+                                          const EdgeInsets.only(left: 30.0),
                                       child: Container(
                                         width: double.minPositive,
                                         decoration: BoxDecoration(
@@ -511,7 +534,8 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                           listener: (context, state) {
                                             if (state is GetCityLoadingState) {
                                               const Center(
-                                                child: CircularProgressIndicator(),
+                                                child:
+                                                    CircularProgressIndicator(),
                                               );
                                             } else if (state
                                                 is GetCitySuccessState) {
@@ -519,10 +543,12 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                                   state.cityResponse.data;
                                               print('response===>$reponseCity');
                                               cityList = reponseCity!;
-                                            } else if (state is GetCityErrorState) {
+                                            } else if (state
+                                                is GetCityErrorState) {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(content: Text('error')),
+                                                SnackBar(
+                                                    content: Text('error')),
                                               );
                                               print('error');
                                             }
@@ -535,16 +561,17 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                                     border: InputBorder.none),
                                                 value: cityValue,
                                                 icon: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      right: 20.0),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          right: 20.0),
                                                   child: const Icon(
                                                     Icons.keyboard_arrow_down,
                                                     size: 28,
                                                     color: secondryColor,
                                                   ),
                                                 ),
-                                                items:
-                                                    cityList.map((DataCity item) {
+                                                items: cityList
+                                                    .map((DataCity item) {
                                                   return DropdownMenuItem(
                                                     value: item.name,
                                                     child: Padding(
@@ -570,8 +597,10 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                                       (city) =>
                                                           city.name == newValue,
                                                     );
-                                                    if (desiredCountry != null) {
-                                                      cityId = desiredCountry.id;
+                                                    if (desiredCountry !=
+                                                        null) {
+                                                      cityId =
+                                                          desiredCountry.id;
                                                       print(
                                                           '-----------------------The state code for $newValue is $cityId');
                                                     } else {
@@ -632,49 +661,62 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                                     minWidth: 304.00,
                                     height: 52.00,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(26.00)),
+                                        borderRadius:
+                                            BorderRadius.circular(26.00)),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        if (countryValue== null) {
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(
-                                                  content: Text('Pleaase Select Country')));
+                                        if (countryValue == null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Pleaase Select Country')));
                                         } else if (stateValue == null) {
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(
-                                                  content: Text('Pleaase Select State')));
-                                        } else if (cityValue== null) {
-                                          ScaffoldMessenger.of(context).showSnackBar(
-                                              SnackBar(
-                                                  content: Text('Pleaase Select City')));
-                                        }else{
-                                          Navigator.pushNamed(context, AppRouteName.OtpPage,
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Pleaase Select State')));
+                                        } else if (cityValue == null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      'Pleaase Select City')));
+                                        } else {
+                                          Navigator.pushNamed(
+                                              context, AppRouteName.OtpPage,
                                               arguments: {
-                                                "firstname": args.firstName.toString(),
-                                                "lastname": args.lastName.toString(),
-                                                "mobile": args.mobile.toString(),
+                                                "firstname":
+                                                    args.firstName.toString(),
+                                                "lastname":
+                                                    args.lastName.toString(),
+                                                "mobile":
+                                                    args.mobile.toString(),
                                                 "email": args.email.toString(),
                                                 'login_register': false,
                                                 'address_line_1':
-                                                adderess1Controller.text.toString(),
+                                                    adderess1Controller.text
+                                                        .toString(),
                                                 'address_line_2':
-                                                address2Controller.text.toString(),
-                                                'land_mark':
-                                                landmarkController.text.toString(),
+                                                    address2Controller.text
+                                                        .toString(),
+                                                'land_mark': landmarkController
+                                                    .text
+                                                    .toString(),
                                                 'country_id': countryId,
                                                 'state_id': stateId,
                                                 'city_id': cityId,
-                                                'pin_code': pincodeController.text.toString(),
-                                                'address_type': AddrressType.home ==
-                                                    _addrressType
+                                                'pin_code': pincodeController
+                                                    .text
+                                                    .toString(),
+                                                'address_type': AddrressType
+                                                            .home ==
+                                                        _addrressType
                                                     ? 1
-                                                    : (AddrressType.office == _addrressType
-                                                    ? 2
-                                                    : 3)
+                                                    : (AddrressType.office ==
+                                                            _addrressType
+                                                        ? 2
+                                                        : 3)
                                               });
                                         }
-
-
                                       }
                                     },
                                     child: Text(
@@ -698,7 +740,6 @@ class _PersonalInfoPageState extends State<PersonalInfoPage> {
                 ),
               ),
             ),
-
           ],
         ),
       ),

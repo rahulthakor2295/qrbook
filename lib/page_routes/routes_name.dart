@@ -1,12 +1,17 @@
 class AppRouteName {
-  static const String  splashScreen = '/';
-  static const String  pageView = '/page_view';
-  static const String  scanLearn = '/scan_learn';
-  static const  String  saveNotes = '/save_notes';
-  static const String   start = '/start';
-  static const String   Login = '/login_screen';
-  static const String   register = '/register_screen';
-  static const String   PersonalInfo = '/personal_screen';
-  static const String   OtpPage = '/otp_screen';
-  static const String   home = '/home_screen';
+  static const String splashScreen = '/';
+  static const String pageView = '/page_view';
+  static const String scanLearn = '/scan_learn';
+  static const String saveNotes = '/save_notes';
+  static const String start = '/start';
+  static const String Login = '/login_screen';
+  static const String register = '/register_screen';
+  static const String PersonalInfo = '/personal_screen';
+  static const String OtpPage = '/otp_screen';
+  static const String home = '/home_screen';
+  static const String setting = '/setting_screen';
+  static const String aboutTerms = '/about_terms_screen';
+  static const String updateProfile = '/update_profile_screen';
+  static const String createAddress = '/create_address';
+  static const String updateAddress = '/update_address';
 }

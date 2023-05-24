@@ -12,8 +12,9 @@ class ScreenArguments {
   int?  cityId;
   String? pincode;
   int? addressType;
+  int? termsCondition;
 
-  ScreenArguments(this.firstName,this.lastName,this.mobile,this.email);
+  ScreenArguments(this.firstName,this.lastName,this.mobile,this.email,this.termsCondition);
 
   Map<String, dynamic> toMap() {
     return {
@@ -30,6 +31,7 @@ class ScreenArguments {
       'city_id' :cityId,
       'pin_code' :pincode,
       'address_type' :addressType,
+      'terms_condition' : termsCondition,
     };
   }
 
@@ -47,5 +49,6 @@ class ScreenArguments {
     this.cityId = json["city_id"];
     this.pincode = json["pin_code"];
     this.addressType = json["address_type"];
+    this.termsCondition = json["terms_condition"];
   }
 }
