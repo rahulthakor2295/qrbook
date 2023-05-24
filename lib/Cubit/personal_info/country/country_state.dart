@@ -4,7 +4,13 @@ part of 'country_cubit.dart';
 abstract class CountryState {}
 
 class CountryInitial extends CountryState {}
-class CountryLoadingState extends CountryState {}
+
+class CountryLoadingState extends CountryState {
+  CountryLoadingState();
+
+  @override
+  List<Object> get props => [];
+}
 
 class CountrySuccessState extends CountryState {
   final GetCountryModel CountryResponse;
